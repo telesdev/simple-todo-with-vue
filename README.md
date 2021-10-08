@@ -3,9 +3,10 @@
 ## Features
 
 - list all items
-- edit task 1 (name)
-- edit task 2 (done or not done)
-- delete item
+- add task
+- edit task 1 (name) - click 'editar' button
+- edit task 2 (done or not done) - click task
+- delete item - click 'delete' button
 - count tasks (total and done)
 
 ## Extra
