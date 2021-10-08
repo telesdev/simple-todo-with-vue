@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .riscado {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>To-Do</h1>
+        <input v-model.trim='todo' @keypress.enter='adicionar'>
+        <button @click='adicionar'>adicionar</button>
+
+        <ul>
+            <li v-for='(tarefa) in list' :key='tarefa.id'>
+                <button @click='editar(tarefa)'>editar</button>
+                <button @click='deletar(tarefa)'>deletar</button>
+                <input v-if="alterando == tarefa" v-model="tarefa.todo" placeholder="todo">
+                <span @click='{ tarefa.feito = !tarefa.feito }' :class='{ riscado: tarefa.feito }' v-else>
+                    {{ tarefa.id }} - {{ tarefa.todo }} - {{ tarefa.feito ? 'feito' : 'não feito'}}
+                </span>
+            </li>
+        </ul>
+        <div>
+            {{ qtdFeitas }} tarefas feitas de um total {{ qtdTarefas }}
+        </div>
+    </div>
+
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                list: [],
+                alterando: false
+            },
+            computed: {
+                qtdTarefas() {
+                    return this.list.length
+                },
+                qtdFeitas(){
+                    return this.list.filter(tarefa => tarefa.feito == true).length
+                }
+            },
+            methods: {
+                adicionar() {
+                    if (!this.todo)
+                        return
+                    let tarefa = {
+                        id: this.list[this.list.length-1].id +1,
+                        todo: this.todo,
+                        feito: false,
+                        editando: false
+                    }
+                    this.list.push(tarefa)
+                    this.todo = ''
+                },
+                editar(tarefa) {
+                    if (!tarefa.todo)
+                        return
+                    if (this.alterando !== tarefa){
+                        this.alterando = tarefa
+                    } else {
+                        this.alterando = null
+                    }
+                },
+                deletar(tarefa) {
+                    this.list.splice(this.list.indexOf(tarefa), 1)
+                }
+            },
+            created() {
+                fetch('./data.json')
+                .then(res => res.json())
+                .then(data => {
+                    this.list = data.list
+                })
+            },
+        })
+    </script>
+</body>
+</html>

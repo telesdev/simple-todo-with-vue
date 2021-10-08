@@ -1,0 +1,9 @@
+{
+    "list": [
+        {"id": 1, "todo": "cozinhar", "feito": false, "editando": false},
+        {"id": 2, "todo": "lavar roupa", "feito": false, "editando": false},
+        {"id": 3, "todo": "estudar vue", "feito": false, "editando": false},
+        {"id": 4, "todo": "estudar mais saber", "feito": false, "editando": false},
+        {"id": 5, "todo": "esqueci", "feito": false, "editando": false}
+    ]
+}
