@@ -36,9 +36,11 @@
     <script>
         let app = new Vue({
             el: '#app',
-            data: {
-                list: [],
-                alterando: false
+            data: () => {
+                return {
+                    list: [],
+                    alterando: false
+                }
             },
             computed: {
                 qtdTarefas() {
@@ -74,7 +76,7 @@
                     this.list.splice(this.list.indexOf(tarefa), 1)
                 }
             },
-            created() {
+            mounted() {
                 fetch('./data.json')
                 .then(res => res.json())
                 .then(data => {
